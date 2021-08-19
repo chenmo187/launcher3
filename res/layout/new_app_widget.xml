@@ -1,0 +1,114 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_music_widget_lzy"
+
+    android:theme="@style/ThemeOverlay.Launcher3.AppWidgetContainer">
+
+    <!--    android:padding="@dimen/widget_margin"  -->
+    <!--    <TextView-->
+    <!--        android:id="@+id/appwidget_text"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="15dp"-->
+    <!--        android:contentDescription="@string/appwidget_text"-->
+    <!--        android:ellipsize="end"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/appwidget_text"-->
+    <!--        android:textColor="?attr/appWidgetTextColor"-->
+    <!--        android:textSize="24sp"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imgBtn_pre_one"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginStart="30dp"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        android:background="@null"-->
+    <!--        android:src="@drawable/pre_lzy"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/img_Btn_playPause"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        android:background="@null"-->
+    <!--        android:src="@drawable/pause_lzy"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/imgBtn_next_one"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginEnd="30dp"-->
+    <!--        android:layout_marginBottom="20dp"-->
+    <!--        android:background="@null"-->
+    <!--        android:src="@drawable/next_one_lzy"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+
+
+    <!--
+    android:textStyle="bold|italic"
+    -->
+    <TextView
+        android:id="@+id/appwidget_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="5dp"
+        android:contentDescription="@string/appwidget_text"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/appwidget_text"
+        android:textColor="?attr/appWidgetTextColor"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/ll_control_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imgBtn_pre_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:foreground="@drawable/music_widget_click_selector"
+            android:src="@drawable/pre_lzy" />
+
+        <ImageButton
+            android:id="@+id/img_Btn_playPause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@null"
+            android:foreground="@drawable/music_widget_click_selector"
+            android:src="@drawable/pause_lzy" />
+
+        <ImageButton
+            android:id="@+id/imgBtn_next_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:foreground="@drawable/music_widget_click_selector"
+            android:src="@drawable/next_one_lzy" />
+    </LinearLayout>
+</RelativeLayout>

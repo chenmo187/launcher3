@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lzy_nav_cons_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".Launcher">
+    <!--添加一个只响应鼠标的向左边翻页的透明按钮-->
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/img_btn_scroll_to_left_lzy"-->
+    <!--        android:layout_width="20dp"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:background="@null"-->
+    <!--        android:clickable="false"-->
+    <!--        android:focusable="false"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+    <TextClock
+        android:id="@+id/textClock_lzy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="none"
+        android:focusable="false"
+        android:format12Hour="hh:mm"
+        android:format24Hour="HH:mm"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--  网络状态  -->
+
+    <LinearLayout
+        android:id="@+id/ll_net_statu_lzy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textClock_lzy"
+        tools:ignore="MissingConstraints">
+        <!--移动网络信号图标    -->
+        <ImageView
+            android:id="@+id/img_s_s_lzy"
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:focusable="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/s_icon1"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--网络类型  4G 5G   -->
+        <TextView
+            android:id="@+id/tv_net_type_lzy"
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:focusable="false"
+            android:text=" "
+            android:textColor="@color/legacy_icon_background"
+            android:textDirection="locale"
+            android:textSize="12sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_s_s_lzy" />
+    </LinearLayout>
+
+
+    <!--wifi信号 和蓝牙-->
+    <LinearLayout
+        android:id="@+id/ll_wifi_bt_lzy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_net_statu_lzy"
+        tools:ignore="MissingConstraints">
+
+        <!--        -->
+        <ImageView
+            android:id="@+id/img_wifi_s_lzy"
+            android:layout_width="19dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/wifi_lev0"
+            android:focusable="false"
+            android:scaleType="centerInside"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--蓝牙状态图标    -->
+        <ImageView
+            android:id="@+id/img_bt_connect_lzy"
+            android:layout_width="25dp"
+            android:layout_height="15dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="6dp"
+            android:background="@null"
+            android:focusable="false"
+            android:scaleType="centerInside"
+            android:src="@mipmap/bt_close_icon"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_wifi_s_lzy">
+
+        </ImageView>
+    </LinearLayout>
+
+
+
+
+
+    <!--   第一个最近任务    android:layout_marginTop="20dp"-->
+    <ImageButton
+        android:id="@+id/iv_music_lzy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:foreground="@drawable/left_task_icon_selector"
+        app:layout_constraintBottom_toTopOf="@+id/iv_bluetooth_lzy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!--第二个最近任务
+
+    -->
+    <ImageButton
+        android:id="@+id/iv_bluetooth_lzy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:foreground="@drawable/left_task_icon_selector"
+        app:layout_constraintBottom_toTopOf="@+id/img_btn_back_lzy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!--第三个任务-->
+    <ImageButton
+        android:id="@+id/img_btn_back_lzy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="20dp"
+        android:background="@null"
+        android:foreground="@drawable/left_task_icon_selector"
+        app:layout_constraintBottom_toTopOf="@+id/img_btn_mic_lzy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <!--麦克风-->
+    <ImageButton
+        android:id="@+id/img_btn_mic_lzy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:background="@mipmap/icon_speed_lzy"
+        android:foreground="@drawable/left_task_icon_selector"
+        app:layout_constraintBottom_toTopOf="@+id/iv_allapps_lzy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+
+
+    <!--所有app图标-->
+    <ImageButton
+        android:id="@+id/iv_allapps_lzy"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/col_ball_mic_selector"
+        android:foreground="@drawable/left_task_icon_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    </android.support.constraint.ConstraintLayout>-->
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".Launcher">
+
+<!--    &lt;!&ndash;添加一个只响应鼠标的向左边翻页的透明按钮&ndash;&gt;-->
+<!--    <ImageButton-->
+<!--        android:id="@+id/img_btn_scroll_to_left"-->
+<!--        android:layout_width="20dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="@null"-->
+<!--        android:clickable="false"-->
+<!--        android:focusable="false"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--    <TextClock-->
+<!--        android:id="@+id/textClock"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="2dp"-->
+<!--        android:ellipsize="none"-->
+<!--        android:focusable="false"-->
+<!--        android:format12Hour="hh:mm"-->
+<!--        android:format24Hour="HH:mm"-->
+<!--        android:singleLine="true"-->
+<!--        android:textColor="@android:color/white"-->
+<!--        android:textSize="25sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    &lt;!&ndash;  网络状态  &ndash;&gt;-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ll_net_statu"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/textClock">-->
+<!--        &lt;!&ndash;移动网络信号图标    &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/img_s_s"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:focusable="true"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:src="@mipmap/s_icon1"-->
+<!--            android:visibility="visible"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+<!--        &lt;!&ndash;网络类型  4G 5G   &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/tv_net_type"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginStart="6dp"-->
+<!--            android:focusable="false"-->
+<!--            android:text=" "-->
+<!--            android:textDirection="locale"-->
+<!--            android:textSize="12sp"-->
+<!--            android:textColor="@color/legacy_icon_background"-->
+<!--            app:layout_constrainedWidth="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/img_s_s" />-->
+<!--    </LinearLayout>-->
+
+
+<!--    &lt;!&ndash;wifi信号 和蓝牙&ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:id="@+id/ll_wifi_bt_statu"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        android:gravity="center_vertical"-->
+<!--        android:orientation="horizontal"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/ll_net_statu">-->
+
+<!--        &lt;!&ndash;        &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/img_wifi_s"-->
+<!--            android:layout_width="19dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:background="@drawable/wifi_lev0"-->
+<!--            android:focusable="false"-->
+<!--            android:scaleType="centerInside"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--        &lt;!&ndash;蓝牙状态图标    &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/img_bt_connect"-->
+<!--            android:layout_width="25dp"-->
+<!--            android:layout_height="15dp"-->
+<!--            android:layout_gravity="center_vertical"-->
+<!--            android:layout_marginStart="6dp"-->
+<!--            android:focusable="false"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:background="@null"-->
+<!--            android:src="@mipmap/bt_close_icon"-->
+<!--            app:layout_constrainedWidth="true"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@+id/img_wifi_s">-->
+
+<!--        </ImageView>-->
+<!--    </LinearLayout>-->
+
+
+<!--    &lt;!&ndash; 左侧大图标&ndash;&gt;-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:gravity="center"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/rl_iv_home"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        android:layout_marginTop="6dp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/ll_wifi_bt_statu"-->
+<!--        tools:ignore="MissingConstraints">-->
+
+
+<!--        &lt;!&ndash;   第一个最近任务 &ndash;&gt;-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/iv_music"-->
+<!--            android:layout_width="49dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@null"-->
+<!--            android:foreground="@drawable/left_task_icon_selector"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="parent" />-->
+
+
+<!--        &lt;!&ndash;第二个最近任务&ndash;&gt;-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/iv_bluetooth"-->
+<!--            android:layout_width="49dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:background="@null"-->
+<!--            android:foreground="@drawable/left_task_icon_selector"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/iv_music" />-->
+
+
+<!--        &lt;!&ndash;第三个最近任务&ndash;&gt;-->
+<!--        &lt;!&ndash;&ndash;&gt;-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/iv_settings"-->
+<!--            android:layout_width="49dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@null"-->
+<!--            android:foreground="@drawable/left_task_icon_selector"-->
+<!--            android:scaleType="centerInside"-->
+<!--            android:visibility="invisible"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/iv_bluetooth" />-->
+
+
+<!--        &lt;!&ndash;显示所有app界面&ndash;&gt;-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/iv_allapps"-->
+<!--            android:layout_width="49dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            android:background="@mipmap/icon_allapps"-->
+<!--            android:foreground="@drawable/left_task_icon_selector"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/ll_iv_settings" />-->
+
+<!--    </LinearLayout>-->
+
+
+<!--    &lt;!&ndash;  返回桌面    &ndash;&gt;-->
+<!--    <RelativeLayout-->
+<!--        android:id="@+id/rl_iv_home"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent">-->
+
+<!--        &lt;!&ndash;-->
+<!--                     android:layout_marginTop="20dp"&ndash;&gt;-->
+<!--        <ImageButton-->
+<!--            android:id="@+id/iv_home"-->
+<!--            android:layout_width="49dp"-->
+<!--            android:layout_height="49dp"-->
+<!--            android:layout_centerHorizontal="true"-->
+<!--            android:layout_marginBottom="15dp"-->
+<!--            android:background="@drawable/col_ball_mic_selector"-->
+<!--            android:scaleType="centerInside" />-->
+<!--    </RelativeLayout>-->
+
+
+</android.support.constraint.ConstraintLayout>

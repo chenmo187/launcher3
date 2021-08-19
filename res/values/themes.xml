@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="ThemeOverlay.Launcher3.AppWidgetContainer" parent="">
+        <item name="appWidgetBackgroundColor">#00000000</item>
+        <item name="appWidgetTextColor">@color/light_blue_50</item>
+    </style>
+</resources>

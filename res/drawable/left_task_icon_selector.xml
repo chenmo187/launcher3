@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--    <item android:drawable="@color/text_bg" android:state_hovered="true"></item>-->
+    <!--    <item android:drawable="@color/text_bg" android:state_focused="true"></item>-->
+
+    <!--添加hover边框-->
+    <item android:drawable="@drawable/left_task_icon_select_shape" android:state_hovered="true"></item>
+    <item android:drawable="@drawable/left_task_icon_select_shape" android:state_focused="true"></item>
+
+    <item android:drawable="@mipmap/img_left_icon_forg" android:state_pressed="true"></item>
+
+    <item android:drawable="@color/touming" android:state_pressed="false"></item>
+</selector>

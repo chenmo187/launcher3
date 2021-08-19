@@ -1,0 +1,9 @@
+rootProject.name = 'Launcher3'
+//include ':Launcher3'
+//buildCache {
+//    local(DirectoryBuildCache) {
+//        enabled = true
+//        directory = new File(rootDir, 'build-cache')
+//        removeUnusedEntriesAfterDays = 30
+//    }
+//}

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.android.launcher3.LauncherRootView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launcher="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/launcher"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cons_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        launcher:layout_constraintBottom_toBottomOf="parent"
+        launcher:layout_constraintEnd_toEndOf="parent"
+        launcher:layout_constraintStart_toStartOf="parent"
+        launcher:layout_constraintTop_toTopOf="parent">
+        <!--launcher:layout_constraintWidth_percent="0.115"-->
+        <include
+            android:id="@+id/navigation_bar"
+            layout="@layout/layout_navigation"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            launcher:layout_constraintBottom_toBottomOf="parent"
+            launcher:layout_constraintStart_toStartOf="parent"
+            launcher:layout_constraintTop_toTopOf="parent"
+            launcher:layout_constraintWidth_default="percent"
+            launcher:layout_constraintWidth_percent="0.1" />
+
+        <!--launcher:layout_constraintWidth_percent="0.885"-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cons_drag"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            launcher:layout_constraintBottom_toBottomOf="parent"
+            launcher:layout_constraintEnd_toEndOf="parent"
+            launcher:layout_constraintStart_toEndOf="@+id/navigation_bar"
+            launcher:layout_constraintTop_toTopOf="parent"
+            launcher:layout_constraintWidth_default="percent"
+            launcher:layout_constraintWidth_percent="0.9"
+            >
+
+
+            <com.android.launcher3.dragndrop.DragLayer
+                android:id="@+id/drag_layer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:importantForAccessibility="no">
+                <!-- The workspace contains 5 screens of cells -->
+                <!-- DO NOT CHANGE THE ID -->
+                <com.android.launcher3.Workspace
+                    android:id="@+id/workspace"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:theme="@style/HomeScreenElementTheme"
+                    launcher:pageIndicator="@+id/page_indicator"
+                    />
+
+                <!--最近任务栏 -->
+                <include
+                    android:id="@+id/overview_panel"
+                    layout="@layout/overview_panel"
+                    android:visibility="gone" />
+
+                <!--在最近任务栏下方固定删除按钮  add by xiaoyu -->
+                <include
+                    android:id="@+id/overview_cleanAllButton"
+                    layout="@layout/overview_clear_all_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone" />
+                <!-- add cleanAllButton end       -->
+
+                <!-- Keep these behind the workspace so that they are not visible when
+                 we go into AllApps -->
+
+                <com.android.launcher3.pageindicators.PageIndicatorDots
+                    android:id="@+id/page_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:theme="@style/HomeScreenElementTheme"
+                    />
+
+                <!--左上角删除 卸载图标-->
+                <include
+                    android:id="@+id/drop_target_bar"
+                    layout="@layout/drop_target_bar" />
+
+                <!--小箭头-->
+                <include
+                    android:id="@+id/scrim_view"
+                    layout="@layout/scrim_view"
+                    android:visibility="gone"
+                    />
+
+                <!--隐藏掉所有app      -->
+                <include
+                    android:id="@+id/apps_view"
+                    layout="@layout/all_apps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+
+                <!--添加显示所有app界面，替代原生Launcher3 2021 07 26-->
+                <include
+                    android:id="@+id/view_allapps"
+                    layout="@layout/layout_allapps"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+
+                <!-- DO NOT CHANGE THE ID   尝试隐藏hotseat-->
+                <include
+                    android:id="@+id/hotseat"
+                    layout="@layout/hotseat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </com.android.launcher3.dragndrop.DragLayer>
+        </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</com.android.launcher3.LauncherRootView>
+
+
