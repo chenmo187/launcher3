@@ -24,7 +24,6 @@ import com.android.launcher3.AppInfo;
 import com.android.launcher3.BubbleTextView;
 import com.android.launcher3.ItemInfo;
 import com.android.launcher3.PromiseAppInfo;
-import com.android.launcher3.leftnavigationCons;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.PackageUserKey;
 import com.android.launcher3.views.BaseLeftNavigation;

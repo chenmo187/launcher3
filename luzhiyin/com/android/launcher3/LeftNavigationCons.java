@@ -39,7 +39,7 @@ import static com.carsyso.main.aidl.sdk.Key.KeyAction.KEY_UP;
 import static com.carsyso.main.aidl.sdk.Key.KeyCode.KEY_BACK;
 import static com.carsyso.main.aidl.sdk.Key.KeyCode.KEY_SPEECH;
 
-public class leftnavigationCons extends BaseLeftNavigation implements /*Launcher.LauncherNavigationStatue,*/ View.OnClickListener {
+public class LeftNavigationCons extends BaseLeftNavigation implements /*Launcher.LauncherNavigationStatue,*/ View.OnClickListener {
     private static String TAG = "leftnavigationCons";
     // private static Launcher mContext;
 
@@ -58,7 +58,7 @@ public class leftnavigationCons extends BaseLeftNavigation implements /*Launcher
 //        Log.d(TAG, "111 get launcher ");
 //    }
 
-    public leftnavigationCons() {
+    public LeftNavigationCons() {
         Log.d(TAG, "leftnavigationCons");
     }
 

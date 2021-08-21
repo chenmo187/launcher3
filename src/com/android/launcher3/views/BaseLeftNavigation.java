@@ -7,12 +7,11 @@ Describe:左侧任务栏
 */
 
 
-import android.content.BroadcastReceiver;
 import android.view.View;
 
 import com.android.launcher3.Launcher;
 import com.android.launcher3.chelianyiLeftNavigation;
-import com.android.launcher3.leftnavigationCons;
+import com.android.launcher3.LeftNavigationCons;
 
 import java.util.List;
 
@@ -46,7 +45,7 @@ public class BaseLeftNavigation implements Launcher.LauncherNavigationStatue {
         if (instance == null) {
             synchronized (BaseLeftNavigation.class) {
                 if (type.equals(LUZHIYIN)) {
-                    instance = new leftnavigationCons();
+                    instance = new LeftNavigationCons();
                 } else if (type.equals(CHELIANYI)) {
                     instance = new chelianyiLeftNavigation();
                 }
