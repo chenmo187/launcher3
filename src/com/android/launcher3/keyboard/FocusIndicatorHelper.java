@@ -98,7 +98,7 @@ public abstract class FocusIndicatorHelper implements
         mContainer = container;
 
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        int color = container.getResources().getColor(R.color.focused_background);
+        int color = container.getResources().getColor(R.color.light_blue_900);//原始颜色focused_background
         mMaxAlpha = Color.alpha(color);
         mPaint.setColor(0xFF000000 | color);
 

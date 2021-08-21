@@ -78,7 +78,7 @@ public class WorkspaceTouchListener implements OnTouchListener, Runnable {
             //--------------------控制桌面是否允许长按弹框----------------
             boolean handleLongPress;
             if (LauncherAppState.isDisableAllApps()) {
-                handleLongPress = true;// 禁止长按workspace空白处弹出PoPuWindow提示框 2021 06 22 xiaoyu
+                handleLongPress = false;// 禁止长按workspace空白处弹出PoPuWindow提示框 2021 06 22 xiaoyu
             } else {
                 handleLongPress = canHandleLongPress();
             }

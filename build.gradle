@@ -22,10 +22,10 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'com.suding.launcher3'
-        minSdkVersion 28
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "1.2.0"
+        versionName "1.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -164,18 +164,16 @@ allprojects {
 //    }
 
     gradle.projectsEvaluated {
-            tasks.withType(JavaCompile) {
-                    Set<File> fileSet = options.bootstrapClasspath.getFiles()
-                List<File> newFileList =  new ArrayList<>();
-                newFileList.add(new File("libs/framework.jar"))
-                newFileList.addAll(fileSet)
-                options.bootstrapClasspath = files(
-                        newFileList.toArray()
-                )
-            }
+        tasks.withType(JavaCompile) {
+            Set<File> fileSet = options.bootstrapClasspath.getFiles()
+            List<File> newFileList =  new ArrayList<>();
+            newFileList.add(new File("libs/framework.jar"))
+            newFileList.addAll(fileSet)
+            options.bootstrapClasspath = files(
+                    newFileList.toArray()
+            )
+        }
     }
-
-
 }
 
 dependencies {
@@ -190,7 +188,6 @@ dependencies {
     implementation files('quickstep\\libs\\CarsysoBTSDKClient.jar')
     implementation files('libs\\MirrorSupport.jar')
     implementation files('quickstep\\libs\\sysui_shared.jar')
-    implementation files('libs/framework.jar')
 
     //implementation files('quickstep\\libs\\sysui_shared.jar')
 

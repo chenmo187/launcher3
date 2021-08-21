@@ -32,9 +32,13 @@ import android.os.UserHandle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.ArrayMap;
+import android.util.Log;
+
+import com.android.launcher3.LauncherSettings;
 import com.android.launcher3.compat.ShortcutConfigActivityInfo.ShortcutConfigActivityInfoVL;
 import com.android.launcher3.shortcuts.ShortcutInfoCompat;
 import com.android.launcher3.util.PackageUserKey;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +47,47 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
     protected final LauncherApps mLauncherApps;
     protected final Context mContext;
 
+    private final String PKG_SETTINGS = "com.android.settings";
+    private final String PKG_SPEEDPLAY = "com.suding.speedplay";
+    private final String PKG_BTPHONE = "com.carsyso.bluetooth";
+    private final String PKG_BTMUSIC = "com.suding.onstepbtmusic";
+    private final String PKG_APKINSTALLER = "com.suding.apkinstaller";
+    private final String PKG_SPOTIFY = "com.spotify.music";
+    private final String PKG_GALLERY = "org.codeaurora.gallery";
+    private final String PKG_FILEMANAGER = "com.cyanogenmod.filemanager";
+    private final String PKG_NETFLIX = "com.netflix.mediaclient";
+    private final String PKG_WAZE = "com.waze";
+    private final String PKG_GBOARD = "com.google.android.inputmethod.latin";
+    private final String PKG_GOOGLE_MAPS = "com.google.android.apps.maps";
+    private final String PKG_YOUTUBE_MUSIC = "com.google.android.apps.youtube.music";
+    ArrayList<String> blackList = new ArrayList<>();
+
+    ArrayList<String> quickAppList = new ArrayList<>();
+
+    {
+        quickAppList.add(PKG_SETTINGS);
+        quickAppList.add(PKG_SPEEDPLAY);
+        quickAppList.add(PKG_BTPHONE);
+        quickAppList.add(PKG_BTMUSIC);
+        quickAppList.add(PKG_SPOTIFY);
+        quickAppList.add(PKG_GOOGLE_MAPS);
+//        quickAppList.add(PKG_WAZE);
+//        quickAppList.add(PKG_NETFLIX);
+//        quickAppList.add(PKG_GBOARD);
+//        quickAppList.add(PKG_YOUTUBE_MUSIC);
+//        quickAppList.add(PKG_GALLERY);
+//        quickAppList.add(PKG_FILEMANAGER);
+        //------------------黑名单 禁止显示的app----------
+        blackList.add("org.codeaurora.dialer");//电话app
+    }
+
+    List<LauncherActivityInfo> quickInfo = new ArrayList<>();
+    List<LauncherActivityInfo> otherInfo = new ArrayList<>();
+    List<LauncherActivityInfo> allInfo = new ArrayList<>();
+
+
     private final ArrayMap<OnAppsChangedCallbackCompat, WrappedCallback> mCallbacks =
-        new ArrayMap<>();
+            new ArrayMap<>();
 
     LauncherAppsCompatVL(Context context) {
         mContext = context;
@@ -53,7 +96,28 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
 
     @Override
     public List<LauncherActivityInfo> getActivityList(String packageName, UserHandle user) {
-        return mLauncherApps.getActivityList(packageName, user);
+        //---------------对桌面app进行排序，将指定的app显示靠前----2021 08 19 add by xiaoyu---------
+        quickInfo.clear();
+        otherInfo.clear();
+        allInfo.clear();
+        List<LauncherActivityInfo> activityList = mLauncherApps.getActivityList(packageName, user);
+        for (LauncherActivityInfo info : activityList) {
+            if (blackList.contains(info.getApplicationInfo().packageName)){
+                continue;
+            }
+            if (quickAppList.contains(info.getApplicationInfo().packageName)) {
+                quickInfo.add(info);
+            } else {
+                otherInfo.add(info);
+            }
+        }
+        allInfo.addAll(quickInfo);
+        allInfo.addAll(otherInfo);
+        Log.d("LauncherApps", " quickInfo size:" + quickInfo.size() +
+                "  otherInfo size:" + otherInfo.size() + " totle size:" + allInfo.size());
+        return allInfo;
+        //-----------------------------------end----------------------------------------
+        // return mLauncherApps.getActivityList(packageName, user);
     }
 
     @Override
@@ -63,7 +127,7 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
 
     @Override
     public void startActivityForProfile(ComponentName component, UserHandle user,
-            Rect sourceBounds, Bundle opts) {
+                                        Rect sourceBounds, Bundle opts) {
         mLauncherApps.startMainActivity(component, user, sourceBounds, opts);
     }
 
@@ -95,7 +159,7 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
 
     @Override
     public void showAppDetailsForProfile(ComponentName component, UserHandle user,
-            Rect sourceBounds, Bundle opts) {
+                                         Rect sourceBounds, Bundle opts) {
         mLauncherApps.startAppDetailsActivity(component, user, sourceBounds, opts);
     }
 
@@ -158,7 +222,7 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
 
         @Override
         public void onPackagesUnavailable(String[] packageNames, UserHandle user,
-                boolean replacing) {
+                                          boolean replacing) {
             mCallback.onPackagesUnavailable(packageNames, user, replacing);
         }
 
@@ -174,8 +238,8 @@ public class LauncherAppsCompatVL extends LauncherAppsCompat {
 
         @Override
         public void onShortcutsChanged(@NonNull String packageName,
-            @NonNull List<ShortcutInfo> shortcuts,
-            @NonNull UserHandle user) {
+                                       @NonNull List<ShortcutInfo> shortcuts,
+                                       @NonNull UserHandle user) {
             List<ShortcutInfoCompat> shortcutInfoCompats = new ArrayList<>(shortcuts.size());
             for (ShortcutInfo shortcutInfo : shortcuts) {
                 shortcutInfoCompats.add(new ShortcutInfoCompat(shortcutInfo));

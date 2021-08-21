@@ -21,6 +21,7 @@ import android.os.UserHandle;
 import android.support.annotation.NonNull;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.provider.ProviderTestRule;
+import android.util.Log;
 
 import com.android.launcher3.AllAppsList;
 import com.android.launcher3.AppFilter;

@@ -83,7 +83,7 @@ public class LauncherModel extends BroadcastReceiver
         implements LauncherAppsCompat.OnAppsChangedCallbackCompat {
     private static final boolean DEBUG_RECEIVER = false;
 
-    static final String TAG = "Launcher.Model";
+    static final String TAG = "LauncherModel";
 
     private final MainThreadExecutor mUiExecutor = new MainThreadExecutor();
     @Thunk
@@ -137,6 +137,7 @@ public class LauncherModel extends BroadcastReceiver
                 boolean hasShortcutHostPermission =
                         DeepShortcutManager.getInstance(mApp.getContext()).hasHostPermission();
                 if (hasShortcutHostPermission != sBgDataModel.hasShortcutHostPermission) {
+                    Log.d(TAG, "run: forceReload1111");
                     forceReload();
                 }
             }
@@ -413,6 +414,7 @@ public class LauncherModel extends BroadcastReceiver
         if (DEBUG_RECEIVER) Log.d(TAG, "onReceive intent=" + intent);
 
         final String action = intent.getAction();
+        Log.d(TAG, "onReceive: action:" + action);
         if (Intent.ACTION_LOCALE_CHANGED.equals(action)) {
             // If we have changed locale we need to clear out the labels in all apps/workspace.
             forceReload();
@@ -448,6 +450,7 @@ public class LauncherModel extends BroadcastReceiver
      * not be called as DB updates are automatically followed by UI update
      */
     public void forceReload() {
+        Log.d(TAG, "forceReload-----");
         synchronized (mLock) {
             // Stop any existing loaders first, so they don't set mModelLoaded to true later
             stopLoader();
@@ -473,6 +476,7 @@ public class LauncherModel extends BroadcastReceiver
      */
     public boolean startLoader(int synchronousBindPage) {
         // Enable queue before starting loader. It will get disabled in Launcher#finishBindingItems
+        Log.d(TAG, "startLoader  page: " + synchronousBindPage);
         InstallShortcutReceiver.enableInstallQueue(InstallShortcutReceiver.FLAG_LOADER_RUNNING);
         synchronized (mLock) {
             // Don't bother to start the thread if we know it's not going to do anything

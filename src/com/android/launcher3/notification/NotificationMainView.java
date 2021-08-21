@@ -29,6 +29,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.FloatProperty;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -94,7 +95,7 @@ public class NotificationMainView extends FrameLayout implements SwipeDetector.L
     @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
-
+        Log.d("Notification", "onFinishInflate");
         mTextAndBackground = findViewById(R.id.text_and_background);
         ColorDrawable colorBackground = (ColorDrawable) mTextAndBackground.getBackground();
         mBackgroundColor = colorBackground.getColor();
@@ -145,11 +146,13 @@ public class NotificationMainView extends FrameLayout implements SwipeDetector.L
     }
 
     public void setContentTranslation(float translation) {
+        Log.d("Notification", "setContentTranslation: "+translation);
         mTextAndBackground.setTranslationX(translation);
         mIconView.setTranslationX(translation);
     }
 
     public void setContentVisibility(int visibility) {
+        Log.d("Notification", "setContentVisibility: "+visibility);
         mTextAndBackground.setVisibility(visibility);
         mIconView.setVisibility(visibility);
     }
@@ -160,10 +163,12 @@ public class NotificationMainView extends FrameLayout implements SwipeDetector.L
 
 
     public boolean canChildBeDismissed() {
+        Log.d("Notification", "canChildBeDismissed: ");
         return mNotificationInfo != null && mNotificationInfo.dismissable;
     }
 
     public void onChildDismissed() {
+        Log.d("Notification", "onChildDismissed: ");
         Launcher launcher = Launcher.getLauncher(getContext());
         launcher.getPopupDataProvider().cancelNotification(
                 mNotificationInfo.notificationKey);

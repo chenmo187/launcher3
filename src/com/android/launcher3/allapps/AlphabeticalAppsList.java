@@ -17,6 +17,7 @@ package com.android.launcher3.allapps;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.android.launcher3.AppInfo;
 import com.android.launcher3.Launcher;
@@ -68,13 +69,17 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
      * Info about a particular adapter item (can be either section or app)
      */
     public static class AdapterItem {
-        /** Common properties */
+        /**
+         * Common properties
+         */
         // The index of this adapter item in the list
         public int position;
         // The type of this item
         public int viewType;
 
-        /** App-only properties */
+        /**
+         * App-only properties
+         */
         // The section name of this app.  Note that there can be multiple items with different
         // sectionNames in the same section
         public String sectionName = null;
@@ -88,7 +93,7 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
         public int appIndex = -1;
 
         public static AdapterItem asApp(int pos, String sectionName, AppInfo appInfo,
-                int appIndex) {
+                                        int appIndex) {
             AdapterItem item = new AdapterItem();
             item.viewType = AllAppsGridAdapter.VIEW_TYPE_ICON;
             item.position = pos;
@@ -249,7 +254,7 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
                 mApps.add(app);
             }
         }
-
+        Log.d(TAG, "onAppsUpdated  mApps:" + mApps.size());
         Collections.sort(mApps, mAppNameComparator);
 
         // As a special case for some languages (currently only Simplified Chinese), we may need to
@@ -329,7 +334,8 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
             }
 
             // Create an app item
-            AdapterItem appItem = AdapterItem.asApp(position++, sectionName, info, appIndex++);
+            AdapterItem appItem = AdapterItem.asApp(position++, sectionName, info, appIndex++);//按照字母顺序
+          //  Log.d(TAG, "refillAdapterItems: position:"+position+"   title:"+info.title+"   addindex:"+appIndex);
             if (lastFastScrollerSectionInfo.fastScrollToItem == null) {
                 lastFastScrollerSectionInfo.fastScrollToItem = appItem;
             }
@@ -416,8 +422,10 @@ public class AlphabeticalAppsList implements AllAppsStore.OnUpdateListener {
 
     private List<AppInfo> getFiltersAppInfos() {
         if (mSearchResults == null) {
+            Log.d(TAG, "mApps size : " + mApps.size());
             return mApps;
         }
+        // Log.d(TAG, "mSearchResults size : "+mSearchResults.size());
         ArrayList<AppInfo> result = new ArrayList<>();
         for (ComponentKey key : mSearchResults) {
             AppInfo match = mAllAppsStore.getApp(key);

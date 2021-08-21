@@ -434,16 +434,17 @@ public class CellLayout extends ViewGroup {
         // When we're small, we are either drawn normally or in the "accepts drops" state (during
         // a drag). However, we also drag the mini hover background *over* one of those two
         // backgrounds
+
         if (mBackground.getAlpha() > 0) {
             mBackground.draw(canvas);
         }
-
         final Paint paint = mDragOutlinePaint;
         for (int i = 0; i < mDragOutlines.length; i++) {
             final float alpha = mDragOutlineAlphas[i];
             if (alpha > 0) {
                 final Bitmap b = (Bitmap) mDragOutlineAnims[i].getTag();
-                paint.setAlpha((int) (alpha + .5f));
+                 paint.setAlpha((int) (alpha + .5f));
+
                 canvas.drawBitmap(b, null, mDragOutlines[i], paint);
             }
         }
@@ -832,7 +833,7 @@ public class CellLayout extends ViewGroup {
                 right + mTempRect.right + getPaddingRight(),
                 bottom + mTempRect.bottom + getPaddingBottom());
 
-//        Log.d(TAG, "onLayout app ");
+
     }
 
     /**
@@ -1097,8 +1098,10 @@ public class CellLayout extends ViewGroup {
         // For items with a spanX / spanY > 1, the passed in point (pixelX, pixelY) corresponds
         // to the center of the item, but we are searching based on the top-left cell, so
         // we translate the point over to correspond to the top-left.
+
         pixelX -= mCellWidth * (spanX - 1) / 2f;
         pixelY -= mCellHeight * (spanY - 1) / 2f;
+//        Log.d(TAG, "findNearestArea: <<<<<<pixelX:"+pixelX+"   mCellWidth:"+mCellWidth);
 
         // Keep track of best-scoring drop area
         final int[] bestXY = result != null ? result : new int[2];
@@ -2202,6 +2205,7 @@ public class CellLayout extends ViewGroup {
             r1.set(lp.cellX, lp.cellY, lp.cellX + lp.cellHSpan, lp.cellY + lp.cellVSpan);
             if (Rect.intersects(r0, r1)) {
                 mIntersectingViews.add(child);
+                Log.d(TAG, "-----------------------------------矩形相交------------ ");
                 if (boundingRect != null) {
                     boundingRect.union(r1);
                 }
@@ -2211,12 +2215,12 @@ public class CellLayout extends ViewGroup {
 
     boolean isNearestDropLocationOccupied(int pixelX, int pixelY, int spanX, int spanY,
                                           View dragView, int[] result) {
-        Log.d(TAG, "isNearestDropLocationOccupied: pixelX" + pixelX + "  pixelY" + pixelY + " spanX " + spanX + " spanY " + spanY);
+        // Log.d(TAG, ">>>>>  pixelX:" + pixelX + "  pixelY:" + pixelY + " spanX:" + spanX + " spanY: " + spanY);
         result = findNearestArea(pixelX, pixelY, spanX, spanY, result);
         getViewsIntersectingRegion(result[0], result[1], spanX, spanY, dragView, null,
                 mIntersectingViews);
         if (!mIntersectingViews.isEmpty()) {
-            Log.d(TAG, "isNearestDropLocationOccupied   ------翻页---");
+            // Log.d(TAG, "------翻页---: pixelX:" + pixelX + "  pixelY:" + pixelY + " spanX:" + spanX + " spanY: " + spanY);
         }
         return !mIntersectingViews.isEmpty();
     }

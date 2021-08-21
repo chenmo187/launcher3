@@ -16,7 +16,7 @@ import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 
 
-
+import com.android.launcher3.AppInfo;
 import com.android.launcher3.R;
 
 import java.util.List;
@@ -31,19 +31,19 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsViewHolder> {
 
     private Context context;
 
-    private List<LauncherActivityInfo> allApps;
+    private List<AppInfo> allApps;
 
     private LayoutInflater mLayoutInflater;
 
     private PackageManager mPackageManager;
 
-    public void notifyAppData(List<LauncherActivityInfo> allApps) {
+    public void notifyAppData(List<AppInfo> allApps) {
         allApps.clear();
         allApps.addAll(allApps);
         notifyDataSetChanged();
     }
 
-    public AllAppsAdapter(Context context, List<LauncherActivityInfo> allApps) {
+    public AllAppsAdapter(Context context, List<AppInfo> allApps) {
         this.allApps = allApps;
         this.context = context;
         mLayoutInflater = LayoutInflater.from(context);
@@ -96,13 +96,11 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsViewHolder> {
 
     @Override
     public void onBindViewHolder(final AllAppsViewHolder vh, int position) {
-//		vh.ivIcon.setImageBitmap(allApps.get(position).getIcon(arg0));
-        LauncherActivityInfo info = allApps.get(position);
-        Drawable drawable = info.getApplicationInfo().loadIcon(mPackageManager);
-        //Bitmap icon = Utilities.createIconBitmap(drawable, context);
-        Bitmap icon = BitmapUtil.drawableToBitmap(drawable);
-        vh.ivIcon.setImageBitmap(icon);
-        vh.tvAppName.setText(String.format("%s", allApps.get(position).getLabel()));
+        AppInfo info = allApps.get(position);
+       // Drawable drawable = info.getApplicationInfo().loadIcon(mPackageManager);
+       // Bitmap icon = BitmapUtil.drawableToBitmap(drawable);
+        vh.ivIcon.setImageBitmap(info.iconBitmap);
+        vh.tvAppName.setText(String.format("%s", allApps.get(position).title));
         vh.ivIcon.setOnClickListener(new ItemClickListener(position));
         vh.ivIcon.setOnLongClickListener(new ItemLongClickListener(position));
 
@@ -198,9 +196,9 @@ public class AllAppsAdapter extends RecyclerView.Adapter<AllAppsViewHolder> {
     private OnAllAppsItemClickListener onAllAppsItemClickListener;
 
     public interface OnAllAppsItemClickListener {
-        void onItemClick(LauncherActivityInfo info);
+        void onItemClick(AppInfo info);
 
-        void onItemLongClick(LauncherActivityInfo info);
+        void onItemLongClick(AppInfo info);
     }
 
 }

@@ -84,6 +84,7 @@
                     android:id="@+id/page_indicator"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_gravity="bottom|center_horizontal"
                     android:theme="@style/HomeScreenElementTheme"
                     />

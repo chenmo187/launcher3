@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /*
 * Copyright (C) 2008 The Android Open Source Project
 *
@@ -19,6 +18,7 @@
 
 <resources>
     <!-- Launcher theme 增加 windowFullscreen属性-->
+    <!--     <item name="android:windowBackground">@android:color/transparent</item>-->
     <style name="BaseLauncherTheme" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -87,9 +87,15 @@
     <!-- A derivative project can extend these themes to customize the application theme without
          affecting the base theme -->
     <style name="AppTheme" parent="@style/LauncherTheme" />
+
     <style name="AppTheme.DarkText" parent="@style/LauncherTheme.DarkText" />
+
     <style name="AppTheme.Dark" parent="@style/LauncherTheme.Dark" />
+
     <style name="AppTheme.Dark.DarkText" parent="@style/LauncherTheme.Dark.DarkText" />
+
+
+
 
     <!--
     Theme overrides to element on homescreen, i.e., which are drawn on top on wallpaper.
@@ -111,7 +117,7 @@
 
     <style name="WidgetContainerTheme.Dark" />
 
-    <style name="FastScrollerPopup" >
+    <style name="FastScrollerPopup">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:minWidth">@dimen/fastscroll_popup_width</item>
         <item name="android:layout_height">@dimen/fastscroll_popup_height</item>
@@ -184,6 +190,7 @@
         <item name="android:colorControlHighlight">#BDBDBD</item>
         <item name="android:colorForeground">@color/all_apps_bg_hand_fill</item>
     </style>
+
     <style name="AllAppsEmptySearchBackground.Dark">
         <item name="android:colorPrimary">#9AA0A6</item>
         <item name="android:colorControlHighlight">#DFE1E5</item>

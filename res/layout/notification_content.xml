@@ -46,7 +46,7 @@
             android:textSize="@dimen/notification_header_count_text_size" />
     </FrameLayout>
 
-    <!-- Main view -->
+    <!-- Main view    android:background="@drawable/bg_notification_content"-->
     <com.android.launcher3.notification.NotificationMainView
         android:id="@+id/main_view"
         android:layout_width="match_parent"

@@ -75,7 +75,6 @@ import com.android.launcher3.touch.ItemLongClickListener;
 import com.android.launcher3.touch.WorkspaceTouchListener;
 import com.android.launcher3.userevent.nano.LauncherLogProto.Action;
 import com.android.launcher3.userevent.nano.LauncherLogProto.ContainerType;
-import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 import com.android.launcher3.util.ItemInfoMatcher;
 import com.android.launcher3.util.LongArrayMap;
 import com.android.launcher3.util.PackageUserKey;
@@ -85,6 +84,8 @@ import com.android.launcher3.widget.LauncherAppWidgetHostView;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
 import com.android.launcher3.widget.PendingAddWidgetInfo;
 import com.android.launcher3.widget.PendingAppWidgetHostView;
+import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
+//import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -375,7 +376,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
     @Override
     public void onDragStart(DropTarget.DragObject dragObject, DragOptions options) {
-        Log.d("ATlog", "onDragStart>>>>>>>>>>>> ");
+        Log.d(TAG, "onDragStart>>>>>>>>>>>> ");
         if (ENFORCE_DRAG_EVENT_ORDER) {
             enforceDragParity("onDragStart", 0, 0);
         }
@@ -435,7 +436,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
     @Override
     public void onDragEnd() {
-        Log.d(TAG, "onDragEnd>>>>>>>>>>>>> ");
+        Log.d(TAG, "onDragEnd  439 ");
         if (ENFORCE_DRAG_EVENT_ORDER) {
             enforceDragParity("onDragEnd", 0, 0);
         }
@@ -1115,7 +1116,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
             showPageIndicatorAtCurrentScroll();
         }
 
-        updatePageAlphaValues();
+        updatePageAlphaValues();//设置滚动透明渐变和上下翻页图标是否隐藏
         enableHwLayersOnVisiblePages();
     }
 
@@ -1319,7 +1320,6 @@ public class Workspace extends PagedView<PageIndicatorDots>
     }
 
     public void showOutlinesTemporarily() {
-        Log.d(TAG, "showOutlinesTemporarily: 下一页");
         if (!mIsPageInTransition && !isTouchActive()) {
             snapToPage(mCurrentPage);
         }
@@ -1336,12 +1336,13 @@ public class Workspace extends PagedView<PageIndicatorDots>
                     float scrollProgress = getScrollProgress(screenCenter, child, i);
                     float alpha = 1 - Math.abs(scrollProgress);
                     if (mWorkspaceFadeInAdjacentScreens) {
-                        child.getShortcutsAndWidgets().setAlpha(alpha);
+                        child.getShortcutsAndWidgets().setAlpha(1);//alpha  滚动不渐变 2021 08 17
                     } else {
                         // Pages that are off-screen aren't important for accessibility.
                         child.getShortcutsAndWidgets().setImportantForAccessibility(
-                                alpha > 0 ? IMPORTANT_FOR_ACCESSIBILITY_AUTO
+                                alpha > 0 ? IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
                                         : IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+                        //IMPORTANT_FOR_ACCESSIBILITY_AUTO  IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
                     }
                 }
             }
@@ -1437,7 +1438,8 @@ public class Workspace extends PagedView<PageIndicatorDots>
                 final CellLayout layout = (CellLayout) getPageAt(i);
                 // enable layers between left and right screen inclusive.
                 boolean enableLayer = leftScreen <= i && i <= rightScreen;
-                layout.enableHardwareLayer(enableLayer);
+                // Log.d(TAG, "enableHwLayersOnVisiblePages  enableLayer: " + enableLayer);
+                layout.enableHardwareLayer(enableLayer);//enableLayer 2021 08
             }
         }
     }
@@ -1536,7 +1538,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
         View child = cellInfo.cell;
 
         mDragInfo = cellInfo;
-        child.setVisibility(INVISIBLE);
+        child.setVisibility(INVISIBLE);// 这里若显示，则拖拽时候会导致元图标显示 2021 08 17
 
         if (options.isAccessibleDrag) {
             mDragController.addDragListener(new AccessibleDragListenerAdapter(
@@ -1576,7 +1578,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
         child.clearFocus();
         child.setPressed(false);
-        // mOutlineProvider = previewProvider;//去掉Outline图标 就是长按拖动的那个白框 2021 06 26
+        mOutlineProvider = previewProvider;//注释会去掉Outline图标 就是长按拖动的那个白框 2021 06 26
 
         // The drag bitmap follows the touch point around on the screen
         final Bitmap b = previewProvider.createDragBitmap();
@@ -1640,6 +1642,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
      */
     @Override
     public boolean acceptDrop(DragObject d) {
+        Log.d(TAG, "-------------acceptDrop:-------------");
         // If it's an external drop (e.g. from All Apps), check if it should be accepted
         CellLayout dropTargetLayout = mDropToLayout;
         if (d.dragSource != this) {
@@ -1852,12 +1855,11 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
     @Override
     public void prepareAccessibilityDrop() {
-        Log.d(TAG, "prepareAccessibilityDrop: 测试滑动上一页");
+//        Log.d(TAG, "prepareAccessibilityDrop: 测试滑动上一页");
     }
 
     public void onDrop(final DragObject d, DragOptions options) {
-        Log.d(TAG, "onDrop 离开屏幕>>>>>>>>>>>");
-
+        Log.d(TAG, "onDrop  离开屏幕  1860");
         mDragViewVisualCenter = d.getVisualCenter(mDragViewVisualCenter);
         CellLayout dropTargetLayout = mDropToLayout;
 
@@ -2007,6 +2009,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
                             lp.cellX, lp.cellY, item.spanX, item.spanY);
                 } else {
                     if (!returnToOriginalCellToPreventShuffling) {
+                        // Log.d(TAG, "onDrop: 松开屏幕  拖拽屏幕没有空位置");
                         onNoCellFound(dropTargetLayout);
                     }
 
@@ -2044,7 +2047,6 @@ public class Workspace extends PagedView<PageIndicatorDots>
                             this);
                 }
             } else {
-                Log.d(TAG, "onDrop: cell visibility");
                 d.deferDragViewCleanupPostAnimation = false;
                 cell.setVisibility(VISIBLE);
             }
@@ -2110,6 +2112,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
         mAddToExistingFolderOnDrop = false;
 
         mDropToLayout = null;
+        Log.d(TAG, "onDragEnter   ---------getVisualCenter---------- ");
         mDragViewVisualCenter = d.getVisualCenter(mDragViewVisualCenter);
         setDropLayoutForDragObject(d, mDragViewVisualCenter[0], mDragViewVisualCenter[1]);
     }
@@ -2161,6 +2164,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
         }
         mDragTargetLayout = layout;
         if (mDragTargetLayout != null) {
+            // Log.d(TAG, "setCurrentDropLayout: onDragEnter");
             mDragTargetLayout.onDragEnter();
         }
         cleanupReorder(true);
@@ -2276,7 +2280,6 @@ public class Workspace extends PagedView<PageIndicatorDots>
     }
 
     public void onDragOver(DragObject d) {
-        //Log.d(TAG, "onDragOver  收到拖拽移动坐标事件   x: " + d.x + "   y:" + d.y);
         // Skip drag over events while we are dragging over side pages
         if (!transitionStateShouldAllowDrop()) return;
         // Log.d(TAG, "onDragOver: 坐标继续传递");
@@ -2291,7 +2294,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
         // Ensure that we have proper spans for the item that we are dropping
         if (item.spanX < 0 || item.spanY < 0) throw new RuntimeException("Improper spans found");
         mDragViewVisualCenter = d.getVisualCenter(mDragViewVisualCenter);
-
+//
         final View child = (mDragInfo == null) ? null : mDragInfo.cell;
         if (setDropLayoutForDragObject(d, mDragViewVisualCenter[0], mDragViewVisualCenter[1])) {
             if (mLauncher.isHotseatLayout(mDragTargetLayout)) {
@@ -2327,6 +2330,8 @@ public class Workspace extends PagedView<PageIndicatorDots>
 
             float targetCellDistance = mDragTargetLayout.getDistanceFromCell(
                     mDragViewVisualCenter[0], mDragViewVisualCenter[1], mTargetCell);
+
+
             //拖动时候文件夹相关判断
             // manageFolderFeedback(mDragTargetLayout, mTargetCell, targetCellDistance, d);//不需要文件夹相关的 202108 10
 
@@ -2335,20 +2340,18 @@ public class Workspace extends PagedView<PageIndicatorDots>
                     item.spanY, child, mTargetCell);
 
             if (!nearestDropOccupied) {
-                //Log.d(TAG, "onDragOver nearestDropOccupied: " + nearestDropOccupied);
+
                 mDragTargetLayout.visualizeDropLocation(child, mOutlineProvider,
                         mTargetCell[0], mTargetCell[1], item.spanX, item.spanY, false, d);
             } else if ((mDragMode == DRAG_MODE_NONE || mDragMode == DRAG_MODE_REORDER)
                     && !mReorderAlarm.alarmPending() && (mLastReorderX != reorderX ||
                     mLastReorderY != reorderY)) {
-                Log.d(TAG, "onDragOver: minSpanX "+minSpanX+"  minSpanY "+minSpanY);
                 int[] resultSpan = new int[2];
                 mDragTargetLayout.performReorder((int) mDragViewVisualCenter[0],
                         (int) mDragViewVisualCenter[1], minSpanX, minSpanY, item.spanX, item.spanY,
                         child, mTargetCell, resultSpan, CellLayout.MODE_SHOW_REORDER_HINT);
 
-                // Otherwise, if we aren't adding to or creating a folder and there's no pending
-                // reorder, then we schedule a reorder
+
                 ReorderAlarmListener listener = new ReorderAlarmListener(mDragViewVisualCenter,
                         minSpanX, minSpanY, item.spanX, item.spanY, d, child);
                 mReorderAlarm.setOnAlarmListener(listener);
@@ -2358,7 +2361,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
             if (mDragMode == DRAG_MODE_CREATE_FOLDER || mDragMode == DRAG_MODE_ADD_TO_FOLDER ||
                     !nearestDropOccupied) {
                 if (mDragTargetLayout != null) {
-                    Log.d(TAG, "onDragOver  revertTempState");
+                    //  Log.d(TAG, "onDragOver  revertTempState");
                     mDragTargetLayout.revertTempState();
                 }
             }
@@ -2391,6 +2394,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
             mTempTouchCoordinates[0] = Math.min(centerX, d.x);
             mTempTouchCoordinates[1] = d.y;
             layout = verifyInsidePage(nextPage + (mIsRtl ? 1 : -1), mTempTouchCoordinates);
+
         }
 
         if (layout == null && !isPageInTransition()) {
@@ -2398,6 +2402,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
             mTempTouchCoordinates[0] = Math.max(centerX, d.x);
             mTempTouchCoordinates[1] = d.y;
             layout = verifyInsidePage(nextPage + (mIsRtl ? -1 : 1), mTempTouchCoordinates);
+
         }
 
         // Always pick the current page.
@@ -2405,7 +2410,8 @@ public class Workspace extends PagedView<PageIndicatorDots>
             layout = (CellLayout) getChildAt(nextPage);
         }
         if (layout != mDragTargetLayout) {
-            setCurrentDropLayout(layout);
+            // Log.d(TAG, "存在下一页，翻页: ");
+            setCurrentDropLayout(layout);//执行翻页  2021 08 17
             setCurrentDragOverlappingLayout(layout);
             return true;
         }
@@ -2419,7 +2425,22 @@ public class Workspace extends PagedView<PageIndicatorDots>
         if (pageNo >= 0 && pageNo < getPageCount()) {
             CellLayout cl = (CellLayout) getChildAt(pageNo);
             mapPointFromSelfToChild(cl, touchXy);
-            if (touchXy[0] >= 0 && touchXy[0] <= cl.getWidth() &&
+            // Log.d(TAG, "verifyInsidePage: touchX:"+touchXy[0]+"  cell width:"+cl.getWidth()+"    touchY:"+touchXy[1]+"   cell height:"+cl.getHeight());
+
+//            if (touchXy[0] >= 0 && touchXy[0] <= cl.getWidth() &&
+//                    touchXy[1] >= 0 && touchXy[1] <= cl.getHeight()) {
+//                // This point is inside the cell layout
+//                return cl;
+//            }
+
+            //----------------------左侧翻页---当图标渗入左侧不到一半距离执行翻页--------------
+            if (touchXy[0] >= 0 && touchXy[0] <= cl.getWidth() + 40 &&
+                    touchXy[1] >= 0 && touchXy[1] <= cl.getHeight()) {
+                // This point is inside the cell layout
+                return cl;
+            }
+            //------------------------右侧翻页-----------------
+            if (touchXy[0] < 0 && touchXy[0] >= -50 &&
                     touchXy[1] >= 0 && touchXy[1] <= cl.getHeight()) {
                 // This point is inside the cell layout
                 return cl;
@@ -2570,7 +2591,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
      * to add an item to one of the workspace screens.
      */
     private void onDropExternal(final int[] touchXY, final CellLayout cellLayout, DragObject d) {
-        Log.d(TAG, "onDropExternal: 翻页");
+//        Log.d(TAG, "onDropExternal: 翻页");
         if (d.dragInfo instanceof PendingAddShortcutInfo) {
             ShortcutInfo si = ((PendingAddShortcutInfo) d.dragInfo)
                     .activityInfo.createShortcutInfo();
@@ -3249,7 +3270,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
                     boolean oldPromiseState = (oldIcon instanceof PreloadIconDrawable)
                             && ((PreloadIconDrawable) oldIcon).hasNotCompleted();
                     shortcut.applyFromShortcutInfo(si, si.isPromise() != oldPromiseState);
-                    Log.d("workspace", "updateShortcuts  evaluate: shortcutinfo:" + si.title);
+                   // Log.d("workspace", "updateShortcuts  evaluate: shortcutinfo:" + si.title);
                 }
                 // process all the shortcuts
                 return false;
@@ -3369,7 +3390,7 @@ public class Workspace extends PagedView<PageIndicatorDots>
     }
 
     void moveToDefaultScreen() {
-        Log.d(TAG, "moveToDefaultScreen: 翻页");
+//        Log.d(TAG, "moveToDefaultScreen: 翻页");
         int page = DEFAULT_PAGE;
         if (!workspaceInModalState() && getNextPage() != page) {
             snapToPage(page);

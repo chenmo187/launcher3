@@ -87,6 +87,7 @@ public class AllAppsList {
         if (findAppInfo(info.componentName, info.user) != null) {
             return;
         }
+        Log.d(TAG, "加载系统已安装app 加载顺序：pkg:"+info.pkgName);
         mIconCache.getTitleAndIcon(info, activityInfo, true /* useLowResIcon */);
 
         data.add(info);
@@ -135,7 +136,7 @@ public class AllAppsList {
         final LauncherAppsCompat launcherApps = LauncherAppsCompat.getInstance(context);
         final List<LauncherActivityInfo> matches = launcherApps.getActivityList(packageName,
                 user);
-
+        Log.d(TAG, "addPackage   packageName:"+packageName);
         for (LauncherActivityInfo info : matches) {
             add(new AppInfo(context, info, user), info);
         }
@@ -208,8 +209,10 @@ public class AllAppsList {
             for (final LauncherActivityInfo info : matches) {
                 AppInfo applicationInfo = findAppInfo(info.getComponentName(), user);
                 if (applicationInfo == null) {
+                    Log.d(TAG, "updatePackage: add---");
                     add(new AppInfo(context, info, user), info);
                 } else {
+                    Log.d(TAG, "updatePackage: getTitleAndIcon");
                     mIconCache.getTitleAndIcon(applicationInfo, info, true /* useLowResIcon */);
                     modified.add(applicationInfo);
                 }

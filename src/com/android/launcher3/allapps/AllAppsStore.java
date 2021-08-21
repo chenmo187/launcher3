@@ -27,6 +27,7 @@ import com.android.launcher3.PromiseAppInfo;
 import com.android.launcher3.leftnavigationCons;
 import com.android.launcher3.util.ComponentKey;
 import com.android.launcher3.util.PackageUserKey;
+import com.android.launcher3.views.BaseLeftNavigation;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -48,6 +49,7 @@ public class AllAppsStore {
     private boolean mUpdatePending = false;
 
     public Collection<AppInfo> getApps() {
+       // Log.d("AllappsStore", "getApps");
         return mComponentToAppMap.values();
     }
 
@@ -76,21 +78,39 @@ public class AllAppsStore {
         }
     }
 
+ //   public static List<String> userDefIcon = new ArrayList<>();//需要排序名单
+
+//    {
+//        userDefIcon.add("com.android.settings");
+//        userDefIcon.add("com.suding.speedplay");
+//        userDefIcon.add("com.carsyso.bluetooth");
+//        userDefIcon.add("com.suding.onstepbtmusic");
+//        userDefIcon.add("com.suding.apkinstaller");
+//        userDefIcon.add("com.spotify.music");
+//        userDefIcon.add("org.codeaurora.gallery");
+//        userDefIcon.add("com.cyanogenmod.filemanager");
+//        userDefIcon.add("com.netflix.mediaclient");
+//        userDefIcon.add("com.waze");
+//        userDefIcon.add("com.google.android.inputmethod.latin");
+//        userDefIcon.add("com.google.android.apps.maps");
+//        userDefIcon.add("com.google.android.apps.youtube.music");
+//    }
+
     /**
      * Adds or updates existing apps in the list
      */
     private final List<AppInfo> appInfoList = new ArrayList<>();
 
     public void addOrUpdateApps(List<AppInfo> apps) {
-        appInfoList.addAll(apps);
-        Log.d("AllappsStore", "addOrUpdateApps: appinfo加载数量:" + apps.size());
+        Log.d("AllappsStore", "addOrUpdateApps: apps:" + apps.size());
+        appInfoList.addAll(apps);//取图标使用(左侧任务栏 所有app)，不需要分顺序
         for (AppInfo app : apps) {
             mComponentToAppMap.put(app.toComponentKey(), app);
-            //Log.d("AllappsStore", " Pkg:" + app.pkgName);
         }
+
         notifyUpdate();
         //app图标信息全部准备就绪了，左侧开始设置图标  2021 08 13
-        leftnavigationCons.initDefTaskIcon();//开机设置默认的图标
+        BaseLeftNavigation.get().initDefTaskIcon();//开机设置默认的图标
     }
 
 
@@ -110,14 +130,20 @@ public class AllAppsStore {
         return null;
     }
 
+    //可以获取到当前所有app的信息，包含图标，pkg，title等数据
+    public List<AppInfo> getAppInfoList() {
+        return appInfoList;
+    }
+
     /**
      * Removes some apps from the list.
      */
     public void removeApps(List<AppInfo> apps) {
         for (AppInfo app : apps) {
-            Log.d("AllappsStore", "removeApps :"+app.pkgName);
+            Log.d("AllappsStore", "removeApps :" + app.pkgName);
             mComponentToAppMap.remove(app.toComponentKey());
             appInfoList.remove(app);
+           // allAppParseCach.remove(app);
         }
         notifyUpdate();
     }

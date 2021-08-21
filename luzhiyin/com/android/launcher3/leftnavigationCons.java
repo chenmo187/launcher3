@@ -24,6 +24,7 @@ import com.android.launcher3.Launcher;
 import com.android.launcher3.R;
 import com.android.launcher3.recentTaskUtils.AppOpUtils;
 import com.android.launcher3.recentTaskUtils.BitmapUtil;
+import com.android.launcher3.views.BaseLeftNavigation;
 import com.carsyso.mainsdk.manager.KeyManager;
 
 import java.util.ArrayList;
@@ -38,9 +39,9 @@ import static com.carsyso.main.aidl.sdk.Key.KeyAction.KEY_UP;
 import static com.carsyso.main.aidl.sdk.Key.KeyCode.KEY_BACK;
 import static com.carsyso.main.aidl.sdk.Key.KeyCode.KEY_SPEECH;
 
-public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements Launcher.LauncherNavigationStatue, View.OnClickListener {
+public class leftnavigationCons extends BaseLeftNavigation implements /*Launcher.LauncherNavigationStatue,*/ View.OnClickListener {
     private static String TAG = "leftnavigationCons";
-    private static Launcher mContext;
+    // private static Launcher mContext;
 
     static List<String> deftasklist = new ArrayList<>(); //开机默认常用app图标
 
@@ -52,34 +53,19 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
 
     static List<ImageButton> leftTask = new ArrayList<>();//左侧最近任务图标
 
-    public leftnavigationCons(Launcher context) {
-        this.mContext = context;
-        Log.d(TAG, "111 get launcher ");
-    }
+//    public leftnavigationCons(Launcher context) {
+//        this.mContext = context;
+//        Log.d(TAG, "111 get launcher ");
+//    }
 
     public leftnavigationCons() {
-
+        Log.d(TAG, "leftnavigationCons");
     }
 
-    private static leftnavigationCons instance;
-
-    public static leftnavigationCons getInstance(Launcher launcher) {
-        if (instance == null) {
-            instance = new leftnavigationCons(launcher);
-        }
-        return instance;
-    }
-
-    public static leftnavigationCons get() {
-        if (instance != null) {
-            return instance;
-        }
-        return new leftnavigationCons();
-    }
 
     private ConstraintLayout layout;
 
-    // @Override
+    @Override
     public View getLayout() {
         layout = (ConstraintLayout) LayoutInflater.from(mContext).inflate(R.layout.luzhiyin_left_navigation, mContext.getRootConstrain(), false);
         Log.d(TAG, "getLayout: 获取到view");
@@ -177,17 +163,18 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
         }
     }
 
-    private void registNavigaListener() {
-        mContext.registNavigationCallBack(this);
-    }
+//    private void registNavigaListener() {
+//        mContext.registNavigationCallBack(this);
+//    }
 
     //放到base中让子类自行上报自己所需任务数
+    @Override
     public int getRecentTaskNum() {
         return 3;
     }
 
     @Override
-    public void onWifiEnable(int rssi) {
+    public void WifiEnable(int rssi) {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -198,7 +185,7 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
     }
 
     @Override
-    public void onWifiConnected(int rssi) {
+    public void WifiConnected(int rssi) {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -209,7 +196,7 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
     }
 
     @Override
-    public void onWifiDisable() {
+    public void WifiDisable() {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -219,17 +206,17 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
     }
 
     @Override
-    public void onBluetoothConnected() {
+    public void BluetoothConnected() {
 
     }
 
     @Override
-    public void onBluetoothDisConnected() {
+    public void BluetoothDisConnected() {
 
     }
 
     @Override
-    public void onBluetoothConnectState(int state) {
+    public void BluetoothConnectState(int state) {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -254,7 +241,7 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
     }
 
     @Override
-    public void oncurrentBTState(int connectState) {
+    public void currentBTState(int connectState) {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -282,7 +269,7 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
     }
 
     @Override
-    public void onPhoneNetLevelChange(int level, String type) {
+    public void PhoneNetLevelChange(int level, String type) {
         mContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -320,12 +307,13 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
 
     //返回原车
     @Override
-    public void back2CarResult(String result) {
+    public void back2Car(String result) {
 
     }
 
     @Override
-    public void recentTask(List<String> tasks) {
+    public void recent(List<String> tasks) {
+
         //接受最近任务变化
         mContext.runOnUiThread(new Runnable() {
             @Override
@@ -444,7 +432,9 @@ public class leftnavigationCons /*extends AbstractLeftNavigation*/ implements La
 
 
     //开机设置左侧任务栏的默认推荐图标
-    public static void initDefTaskIcon() {
+    @Override
+    public void initDefTaskIcon() {
+
         Bitmap zoomImage = BitmapUtil.decodeBitmapInSize(deftasklist.get(0), mContext, 55, 55);
         if (zoomImage != null) {
             leftTask.get(0).setImageBitmap(zoomImage);

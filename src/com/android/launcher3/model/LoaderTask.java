@@ -187,10 +187,9 @@ public class LoaderTask implements Runnable {
             loadAllApps();
             //---------add int 2021 06 15 把所有的apk都显示到workspace中 xiaoyu------------------------
             if (LauncherAppState.isDisableAllApps()) {
-                Log.d("Launcher3", "verifyApplications()");
                 verifyApplications();
             } else {
-                Log.d("Launcher3", "verifyApplications false!!!!!!!!!!!");
+                Log.d(TAG, "verifyApplications false!!!!!!!!!!!");
             }
             //-----------------end-------------------------------------------------------
             TraceHelper.partitionSection(TAG, "step 2.2: Binding all apps");
@@ -252,10 +251,10 @@ public class LoaderTask implements Runnable {
             }
             if (!added.isEmpty()) {
                 //-------------查看加载了哪些------------
-                for (Pair<ItemInfo, Object> entry : installQueue) {
-                    ItemInfo item = entry.first;
-                    Log.d(TAG, "当前加载的app title: " + item.title);
-                }
+//                for (Pair<ItemInfo, Object> entry : installQueue) {
+//                    ItemInfo item = entry.first;
+//                    Log.d(TAG, "当前加载的app title: " + item.title);
+//                }
                 //-----------------end-----------------
                 mApp.getModel().addAndBindAddedWorkspaceItems(installQueue);
             }
@@ -862,6 +861,7 @@ public class LoaderTask implements Runnable {
             for (int i = 0; i < apps.size(); i++) {
                 LauncherActivityInfo app = apps.get(i);
                 // This builds the icon bitmaps.
+               // Log.d(TAG, "loadAllApps: "+app.getApplicationInfo().packageName+"   index:"+i);
                 mBgAllAppsList.add(new AppInfo(app, user, quietMode), app);
             }
         }

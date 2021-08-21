@@ -138,6 +138,7 @@ import com.android.launcher3.util.Thunk;
 import com.android.launcher3.util.TraceHelper;
 import com.android.launcher3.util.UiThreadHelper;
 import com.android.launcher3.util.ViewOnDrawExecutor;
+import com.android.launcher3.views.BaseLeftNavigation;
 import com.android.launcher3.views.OptionsPopupView;
 import com.android.launcher3.widget.LauncherAppWidgetHostView;
 import com.android.launcher3.widget.PendingAddShortcutInfo;
@@ -160,7 +161,6 @@ import com.techbt.core.TechBTClientConfiguration;
 
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -176,6 +176,8 @@ import static com.android.launcher3.LauncherState.NORMAL;
 import static com.android.launcher3.dragndrop.DragLayer.ALPHA_INDEX_LAUNCHER_LOAD;
 import static com.android.launcher3.logging.LoggerUtils.newContainerTarget;
 import static com.android.launcher3.logging.LoggerUtils.newTarget;
+
+import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 //import com.android.launcher3.userevent.nano.LauncherLogProto.Target;
 
 /**
@@ -513,15 +515,15 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
 
     private AlertDialog buildNotificationServiceAlertDialog() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setTitle("获取音乐");
-        alertDialogBuilder.setMessage("接收音乐信息");
-        alertDialogBuilder.setPositiveButton("确认",
+        alertDialogBuilder.setTitle(R.string.browse_title);
+        alertDialogBuilder.setMessage(R.string.browse_subtitle);
+        alertDialogBuilder.setPositiveButton(R.string.open_notification,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Launcher.this.startActivity(new Intent(ACTION_NOTIFICATION_LISTENER_SETTINGS));  // 如果没有获取，则跳转到setting 去获取
                     }
                 });
-        alertDialogBuilder.setNegativeButton("取消",
+        alertDialogBuilder.setNegativeButton(R.string.cancel_open_nogitication,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // If you choose to not enable the notification listener
@@ -1017,9 +1019,9 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
                 InstallShortcutReceiver.FLAG_ACTIVITY_PAUSED, this);
 
         // Refresh shortcuts if the permission changed.
-        // mModel.refreshShortcutsIfRequired();//验证刷新workspace
+        mModel.refreshShortcutsIfRequired();
 
-        DiscoveryBounce.showForHomeIfNeeded(this);
+        // DiscoveryBounce.showForHomeIfNeeded(this);//取消allapps界面闪烁导致屏蔽底部有光标出现
         if (mLauncherCallbacks != null) {
 
             mLauncherCallbacks.onResume();
@@ -1027,7 +1029,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
         UiFactory.onLauncherStateOrResumeChanged(this);
 
         TraceHelper.endSection("ON_RESUME");
-        Log.d(TAG, "onResume: 桌面显示了");
+        Log.d(TAG, "onResume: ------桌面显示了-----");
     }
 
     @Override
@@ -1414,7 +1416,8 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
 
         mAllAppsController.setupViews(mAppsView);
 //        //把导航栏视图添加进去
-        leftnavigationCons.getInstance(this).getLayout();
+       // leftnavigationCons.getInstance(this).getLayout();
+        BaseLeftNavigation.getInstance(this).getLayout();
 
         publicBtnlistener();
     }
@@ -1491,7 +1494,8 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
         GridLayoutManager manager = new GridLayoutManager(getApplication(), 6);
         manager.setOrientation(GridLayoutManager.VERTICAL);
         final LauncherAppsCompat launcherApps = LauncherAppsCompat.getInstance(this);
-        List<LauncherActivityInfo> allApps = launcherApps.getActivityList(null, UserHandle.SYSTEM);
+        // List<LauncherActivityInfo> allApps = launcherApps.getActivityList(null, UserHandle.SYSTEM);
+        List<AppInfo> allApps = getAppsView().getAppsStore().getAppInfoList();//使用全新信息
         Log.d(TAG, "showAllApps: size " + allApps.size());
         adapter = new AllAppsAdapter(getApplication(), allApps);
         rv_allapps.setLayoutManager(manager);
@@ -1500,14 +1504,14 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
         //设置item的监听事件
         adapter.setOnAllAppsItemClickListener(new AllAppsAdapter.OnAllAppsItemClickListener() {
             @Override
-            public void onItemClick(LauncherActivityInfo info) {
+            public void onItemClick(AppInfo info) {
                 //启动app
-                AppOpUtils.openAppByPkgName(Launcher.this, info.getApplicationInfo().packageName);
+                AppOpUtils.openAppByPkgName(Launcher.this, info.pkgName);
             }
 
             @Override
-            public void onItemLongClick(LauncherActivityInfo info) {
-
+            public void onItemLongClick(AppInfo info) {
+                //暂时不要长按卸载，首页支持拖拽卸载
             }
         });
 
@@ -1857,7 +1861,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
                 if (topOpenView != null) {
                     topOpenView.logActionCommand(Action.Command.HOME_INTENT);
                 } else if (alreadyOnHome) {
-                    com.android.launcher3.userevent.nano.LauncherLogProto.Target target = newContainerTarget(mStateManager.getState().containerType);
+                    Target target = newContainerTarget(mStateManager.getState().containerType);
                     target.pageIndex = mWorkspace.getCurrentPage();
                     ued.logActionCommand(Action.Command.HOME_INTENT, target,
                             newContainerTarget(ContainerType.WORKSPACE));
@@ -2292,10 +2296,10 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
     public void modifyUserEvent(LauncherLogProto.LauncherEvent event) {
         if (event.srcTarget != null && event.srcTarget.length > 0 &&
                 event.srcTarget[1].containerType == ContainerType.PREDICTION) {
-            com.android.launcher3.userevent.nano.LauncherLogProto.Target[] targets = new com.android.launcher3.userevent.nano.LauncherLogProto.Target[3];
+            Target[] targets = new Target[3];
             targets[0] = event.srcTarget[0];
             targets[1] = event.srcTarget[1];
-            targets[2] = newTarget(com.android.launcher3.userevent.nano.LauncherLogProto.Target.Type.CONTAINER);
+            targets[2] = newTarget(Target.Type.CONTAINER);
             event.srcTarget = targets;
             LauncherState state = mStateManager.getState();
             if (state == LauncherState.ALL_APPS) {
@@ -2396,6 +2400,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
      */
     @Override
     public void clearPendingBinds() {
+        Log.d(TAG, "clearPendingBinds: 刷新完成 clean");
         if (mPendingExecutor != null) {
             mPendingExecutor.markCompleted();
             mPendingExecutor = null;
@@ -3113,7 +3118,7 @@ public class Launcher extends BaseDraggingActivity implements LauncherExterns, B
     //更新活动app图标
     private void initLeftTaskIcon() {
         tasks.clear();
-        List<ActivityManager.RecentTaskInfo> Alltasks = ActivityManagerWrapper.getInstance().getRecentTasks(leftnavigationCons.getInstance(this).getRecentTaskNum(), UserHandle.myUserId());
+        List<ActivityManager.RecentTaskInfo> Alltasks = ActivityManagerWrapper.getInstance().getRecentTasks(BaseLeftNavigation.getInstance(this).getRecentTaskNum(), UserHandle.myUserId());
 
         int size = Alltasks.size();
         for (ActivityManager.RecentTaskInfo info : Alltasks) {

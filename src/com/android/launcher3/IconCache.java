@@ -192,37 +192,21 @@ public class IconCache {
         return getFullResDefaultActivityIcon();
     }
 
-    public static List<String> userDefIcon = new ArrayList<>();
 
-    {
-        userDefIcon.add("com.android.settings");
-        userDefIcon.add("com.suding.speedplay");
-        userDefIcon.add("com.carsyso.bluetooth");
-        userDefIcon.add("com.suding.onstepbtmusic");
-        userDefIcon.add("com.suding.apkinstaller");
-        userDefIcon.add("com.spotify.music");
-        userDefIcon.add("org.codeaurora.gallery");
-        userDefIcon.add("com.cyanogenmod.filemanager");
-        userDefIcon.add("com.netflix.mediaclient");
-        userDefIcon.add("com.waze");
-        userDefIcon.add("com.google.android.inputmethod.latin");
-        userDefIcon.add("com.google.android.apps.maps");
-        userDefIcon.add("com.google.android.apps.youtube.music");
-    }
 
-    public final String PKG_SETTINGS = "com.android.settings";
-    public final String PKG_SPEEDPLAY = "com.suding.speedplay";
-    public final String PKG_BTPHONE = "com.carsyso.bluetooth";
-    public final String PKG_BTMUSIC = "com.suding.onstepbtmusic";
-    public final String PKG_APKINSTALLER = "com.suding.apkinstaller";
-    public final String PKG_SPOTIFY = "com.spotify.music";
-    public final String PKG_GALLERY = "org.codeaurora.gallery";
-    public final String PKG_FILEMANAGER = "com.cyanogenmod.filemanager";
-    public final String PKG_NETFLIX = "com.netflix.mediaclient";
-    public final String PKG_WAZE = "com.waze";
-    public final String PKG_GBOARD = "com.google.android.inputmethod.latin";
-    public final String PKG_GOOGLE_MAPS = "com.google.android.apps.maps";
-    public final String PKG_YOUTUBE_MUSIC = "com.google.android.apps.youtube.music";
+    private final String PKG_SETTINGS = "com.android.settings";
+    private final String PKG_SPEEDPLAY = "com.suding.speedplay";
+    private final String PKG_BTPHONE = "com.carsyso.bluetooth";
+    private final String PKG_BTMUSIC = "com.suding.onstepbtmusic";
+    private final String PKG_APKINSTALLER = "com.suding.apkinstaller";
+    private final String PKG_SPOTIFY = "com.spotify.music";
+    private final String PKG_GALLERY = "org.codeaurora.gallery";
+    private final String PKG_FILEMANAGER = "com.cyanogenmod.filemanager";
+    private final String PKG_NETFLIX = "com.netflix.mediaclient";
+    private final String PKG_WAZE = "com.waze";
+    private final String PKG_GBOARD = "com.google.android.inputmethod.latin";
+    private final String PKG_GOOGLE_MAPS = "com.google.android.apps.maps";
+    private final String PKG_YOUTUBE_MUSIC = "com.google.android.apps.youtube.music";
 
 
 
@@ -231,7 +215,7 @@ public class IconCache {
     }
 
     public Drawable getFullResIcon(LauncherActivityInfo info, boolean flattenDrawable) {
-        Log.d(TAG, "getFullResIcon: 获取图标的app:" + info.getApplicationInfo().packageName);
+       // Log.d(TAG, "getFullResIcon: 获取图标的app:" + info.getApplicationInfo().packageName);
         Drawable appicon;
         String pkgName = info.getApplicationInfo().packageName;
         switch (pkgName) {
@@ -560,6 +544,7 @@ public class IconCache {
         // null info means not installed, but if we have a component from the intent then
         // we should still look in the cache for restored app icons.
         if (info.getTargetComponent() == null) {
+            Log.d(TAG, "getTitleAndIcon 111");
             getDefaultIcon(info.user).applyTo(info);
             info.title = "";
             info.contentDescription = "";
@@ -580,7 +565,7 @@ public class IconCache {
             boolean usePkgIcon, boolean useLowResIcon) {
         CacheEntry entry = cacheLocked(infoInOut.getTargetComponent(), activityInfoProvider,
                 infoInOut.user, usePkgIcon, useLowResIcon);
-        Log.d(TAG, "getTitleAndIcon333");
+        Log.d(TAG, "------------getTitleAndIcon---567------  ");
         applyCacheEntry(entry, infoInOut);
     }
 
@@ -639,7 +624,7 @@ public class IconCache {
                 info = infoProvider.get();
                 providerFetchedOnce = true;
                 if (info != null) {
-                    Log.d(TAG, "cacheLocked: info不为空重新创建");
+                    Log.d(TAG, "cacheLocked: 数据库被清空重新获取图标保存:"+info.getLabel().toString());
                     LauncherIcons li = LauncherIcons.obtain(mContext);
                     li.createBadgedIconBitmap(getFullResIcon(info), info.getUser(),
                             info.getApplicationInfo().targetSdkVersion).applyTo(entry);
@@ -675,7 +660,7 @@ public class IconCache {
                     providerFetchedOnce = true;
                 }
                 if (info != null) {
-                    Log.d(TAG, "cacheLocked: 55555");
+                  //  Log.d(TAG, "cacheLocked: 55555");
                     entry.title = info.getLabel();
                     entry.contentDescription = mUserManager.getBadgedLabelForUser(entry.title, user);//user
                 }

@@ -512,7 +512,7 @@ public class DragController implements DragDriver.EventListener, TouchController
         DropTarget dropTarget = findDropTarget(mLastTouch[0], mLastTouch[1], dummyCoordinates);
         mDragObject.x = dummyCoordinates[0];
         mDragObject.y = dummyCoordinates[1];
-        Log.d(TAG, "forceTouchMove");
+       // Log.d(TAG, "forceTouchMove");
         checkTouchMove(dropTarget);
     }
 
@@ -523,14 +523,14 @@ public class DragController implements DragDriver.EventListener, TouchController
                 if (mLastDropTarget != null) {
                     mLastDropTarget.onDragExit(mDragObject);
                 }
-                Log.d(TAG, "checkTouchMove onDragEnter  x:" + mDragObject.x + "  y:" + mDragObject.y);
+               // Log.d(TAG, "checkTouchMove onDragEnter  x:" + mDragObject.x + "  y:" + mDragObject.y);
                 dropTarget.onDragEnter(mDragObject);
             }
             //Log.d(TAG, "checkTouchMove onDragOver--------------");
             dropTarget.onDragOver(mDragObject);
         } else {
             if (mLastDropTarget != null) {
-                Log.d(TAG, "checkTouchMove  onDragExit ");
+                //Log.d(TAG, "checkTouchMove  onDragExit ");
                 mLastDropTarget.onDragExit(mDragObject);
             }
         }
@@ -625,7 +625,7 @@ public class DragController implements DragDriver.EventListener, TouchController
                 if (flingAnimation != null) {
                     flingAnimation.run();
                 } else {
-                    dropTarget.onDrop(mDragObject, mOptions);//翻页
+                    dropTarget.onDrop(mDragObject, mOptions);
                 }
                 accepted = true;
                 //------add for cancel canceldroptarget handle  --取消拖拽操作 2021 06 16
